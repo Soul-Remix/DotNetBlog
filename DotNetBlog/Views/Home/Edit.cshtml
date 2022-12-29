@@ -1,0 +1,20 @@
+@model Post
+
+@{
+}
+
+@if (Model.Id == 0)
+{
+    <h2>Create Post</h2>
+}
+else
+{
+    <h2>Edit - @Model.Title</h2>
+}
+
+
+<form asp-controller="Home" asp-action="Edit">
+    <input asp-for="Title"/>
+    <input asp-for="Body"/>
+    <button type="submit">Edit</button>
+</form>

@@ -1,4 +1,6 @@
 using DotNetBlog.Data;
+using DotNetBlog.Interfaces;
+using DotNetBlog.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,7 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("Data")));
 
+builder.Services.AddTransient<IPostService, PostService>();
+
 builder.Services.AddControllersWithViews();
+
 
 var app = builder.Build();
 
