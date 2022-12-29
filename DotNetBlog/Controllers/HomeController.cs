@@ -8,10 +8,12 @@ namespace DotNetBlog.Controllers;
 public class HomeController : Controller
 {
     private readonly IPostService _postService;
+    private readonly IFileManager _fileManager;
 
-    public HomeController(IPostService postService)
+    public HomeController(IPostService postService, IFileManager fileManager)
     {
         _postService = postService;
+        _fileManager = fileManager;
     }
 
     public async Task<IActionResult> Index()
@@ -24,6 +26,13 @@ public class HomeController : Controller
     {
         var post = await _postService.GetPost(id);
         return View(post);
+    }
+
+    [HttpGet("/image/{image}")]
+    public IActionResult Image(string image)
+    {
+        var mime = image.Substring(image.LastIndexOf(".", StringComparison.Ordinal) + 1);
+        return new FileStreamResult(_fileManager.ImageStream(image), $"Image/{mime}");
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

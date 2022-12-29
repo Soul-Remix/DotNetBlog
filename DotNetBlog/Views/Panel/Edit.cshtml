@@ -1,4 +1,4 @@
-@model Post
+@model PostViewModel
 
 @{
 }
@@ -13,8 +13,18 @@ else
 }
 
 
-<form asp-controller="Panel" asp-action="Edit">
-    <input asp-for="Title"/>
-    <input asp-for="Body"/>
-    <button type="submit">Edit</button>
+<form asp-controller="Panel" asp-action="Edit" method="post" enctype="multipart/form-data">
+    <div>
+        <label>Title</label>
+        <input asp-for="Title"/>
+    </div>
+    <div>
+        <label>Body</label>
+        <input asp-for="Body"/>
+    </div>
+    <div>
+        <label>Image</label>
+        <input asp-for="Image"/>
+    </div>
+    <button type="submit">Submit</button>
 </form>

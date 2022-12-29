@@ -1,5 +1,6 @@
 using DotNetBlog.Interfaces;
 using DotNetBlog.Models;
+using DotNetBlog.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,10 +10,12 @@ namespace DotNetBlog.Controllers;
 public class PanelController : Controller
 {
     private readonly IPostService _postService;
+    private readonly IFileManager _fileManager;
 
-    public PanelController(IPostService postService)
+    public PanelController(IPostService postService, IFileManager fileManager)
     {
         _postService = postService;
+        _fileManager = fileManager;
     }
 
     public async Task<IActionResult> Index()
@@ -22,36 +25,65 @@ public class PanelController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Edit(int id)
+    public async Task<IActionResult> Edit(int? id)
     {
-        if (id > 0)
+        if (id == null)
         {
-            var post = await _postService.GetPost(id);
-            return View(post);
+            return View(new PostViewModel());
         }
 
-        return View(new Post());
+        var post = await _postService.GetPost((int)id);
+        if (post == null)
+        {
+            return View(new PostViewModel());
+        }
+
+        return View(new PostViewModel()
+        {
+            Id = post.Id,
+            Title = post.Title,
+            Body = post.Body,
+        });
     }
 
     [HttpPost]
-    public async Task<IActionResult> Edit(Post post)
+    public async Task<IActionResult> Edit(PostViewModel vm)
     {
-        if (post.Id > 0)
+        try
         {
-            _postService.UpdatePost(post);
-        }
-        else
-        {
-            _postService.AddPost(post);
-        }
+            var post = new Post()
+            {
+                Id = vm.Id,
+                Title = vm.Title,
+                Body = vm.Body,
+            };
+            if (vm.Image != null)
+            {
+                post.Image = await _fileManager.SaveImage(vm.Image);
+            }
 
-        var success = await _postService.SaveChangesAsync();
-        if (success)
-        {
-            return RedirectToAction(nameof(Index));
-        }
+            if (post.Id > 0)
+            {
+                _postService.UpdatePost(post);
+            }
+            else
+            {
+                _postService.AddPost(post);
+            }
 
-        return View(post);
+            var success = await _postService.SaveChangesAsync();
+            if (success)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(vm);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+            return View(vm);
+        }
     }
 
     [HttpGet]

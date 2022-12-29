@@ -14,4 +14,9 @@
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="wwwroot\content\blog" />
+      <Folder Include="wwwroot\content\static" />
+    </ItemGroup>
 </Project>

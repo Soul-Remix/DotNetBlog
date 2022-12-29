@@ -23,6 +23,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 builder.Services.ConfigureApplicationCookie(options => { options.LoginPath = "/Auth/Login"; });
 
 builder.Services.AddTransient<IPostService, PostService>();
+builder.Services.AddTransient<IFileManager, FileManager>();
 
 builder.Services.AddControllersWithViews();
 
@@ -50,6 +51,8 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseStaticFiles();
 
 app.MapControllerRoute(
     name: "default",
