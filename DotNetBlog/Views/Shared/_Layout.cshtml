@@ -17,12 +17,27 @@
             </button>
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
+                    <li>
+                        <a asp-controller="Home" asp-action="Index">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-controller="About" asp-action="Privacy">Privacy</a>
+                    <li>
+                        <a asp-controller="About" asp-action="Privacy">Privacy</a>
                     </li>
+                    <li>
+                        <a asp-controller="Home" asp-action="Edit">Edit</a>
+                    </li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li>
+                            <a asp-controller="Auth" asp-action="LogOut">LogOut</a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a asp-controller="Auth" asp-action="LogIn">LogIn</a>
+                        </li>
+                    }
                 </ul>
             </div>
         </div>
