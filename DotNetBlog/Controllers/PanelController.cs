@@ -43,6 +43,7 @@ public class PanelController : Controller
             Id = post.Id,
             Title = post.Title,
             Body = post.Body,
+            CurrentImage = post.Image
         });
     }
 
@@ -57,7 +58,11 @@ public class PanelController : Controller
                 Title = vm.Title,
                 Body = vm.Body,
             };
-            if (vm.Image != null)
+            if (vm.Image == null)
+            {
+                post.Image = vm.CurrentImage;
+            }
+            else
             {
                 post.Image = await _fileManager.SaveImage(vm.Image);
             }

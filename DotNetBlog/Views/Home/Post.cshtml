@@ -9,9 +9,9 @@
     <div class="post-img" style="background-image: url(@image)">
         <span class="title">@Model.Title</span>
     </div>
-    
+
     <div class="post-body">
-        @Model.Body
+        @Html.Raw(@Model.Body)
     </div>
 
 </div>

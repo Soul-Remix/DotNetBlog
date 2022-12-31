@@ -12,7 +12,7 @@ else
     <h2>Edit - @Model.Title</h2>
 }
 
-
+<link rel="stylesheet" href="~/js/Trumbowyg/dist/ui/trumbowyg.min.css">
 <form asp-controller="Panel" asp-action="Edit" method="post" enctype="multipart/form-data">
     <div>
         <label>Title</label>
@@ -20,11 +20,21 @@ else
     </div>
     <div>
         <label>Body</label>
-        <input asp-for="Body"/>
+        <textarea id="editor" asp-for="Body"></textarea>
     </div>
     <div>
         <label>Image</label>
         <input asp-for="Image"/>
+        <input asp-for="CurrentImage" type="hidden"/>
     </div>
     <button type="submit">Submit</button>
 </form>
+
+@section Scripts
+{
+    <script src="~/js/jquery_3.3.1.js"></script>
+    <script src="~/js/Trumbowyg/dist/trumbowyg.min.js"></script>
+    <script>
+        $('#editor').trumbowyg();
+    </script>
+}
