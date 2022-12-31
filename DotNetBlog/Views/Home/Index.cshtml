@@ -4,13 +4,17 @@
     ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <ul>
-        @foreach (var post in Model)
-        {
-            <li>
-                <a asp-controller="Home" asp-action="Post" asp-route-id="@post.Id">@post.Title</a>
-            </li>
-        }
-    </ul>
+<div class="main-img">
+    <span class="title">Amazing Blog Site</span>
+</div>
+
+<div class="container">
+    @foreach (var post in Model)
+    {
+        var image = $"/image/{post.Image}";
+        <a asp-controller="Home" asp-action="Post" asp-route-id="@post.Id" class="card">
+            <img src="@image" alt="@post.Title" class="card-img"/>
+            <p class="card-title">@post.Title</p>
+        </a>
+    }
 </div>

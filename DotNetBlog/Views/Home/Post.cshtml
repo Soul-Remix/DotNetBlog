@@ -1,14 +1,17 @@
 @model Post
 
 @{
-}
-
-<h2>@Model.Title</h2>
-
-@if (!String.IsNullOrEmpty(Model.Image))
-{
     var image = $"/image/{Model.Image}";
-    <img src="@image" alt="@Model.Title" width="500" height="500"/>
 }
 
-<p>@Model.Body</p>
+
+<div class="post-container">
+    <div class="post-img" style="background-image: url(@image)">
+        <span class="title">@Model.Title</span>
+    </div>
+    
+    <div class="post-body">
+        @Model.Body
+    </div>
+
+</div>
