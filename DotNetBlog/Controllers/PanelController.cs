@@ -70,6 +70,11 @@ public class PanelController : Controller
             }
             else
             {
+                if (!String.IsNullOrEmpty(vm.CurrentImage))
+                {
+                    _fileManager.RemoveImage(vm.CurrentImage);
+                }
+
                 post.Image = await _fileManager.SaveImage(vm.Image);
             }
 
@@ -107,8 +112,15 @@ public class PanelController : Controller
     [HttpPost]
     public async Task<IActionResult> Remove(int id)
     {
+        var post = await _postService.GetPost(id);
+        if (post == null)
+        {
+            return RedirectToAction(nameof(Index));
+        }
+
         await _postService.RemovePost(id);
         await _postService.SaveChangesAsync();
+        _fileManager.RemoveImage(post.Image);
 
         return RedirectToAction(nameof(Index));
     }
