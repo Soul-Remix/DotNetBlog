@@ -2,8 +2,10 @@
 
 @{
     var image = $"/image/{Model.Image}";
+    ViewBag.Title = Model.Title;
+    ViewBag.Description = Model.Description;
+    ViewBag.keywords = Model.Tags;
 }
-
 
 <div class="post-container">
     <div class="post-img" style="background-image: url(@image)">

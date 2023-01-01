@@ -16,9 +16,17 @@ public class HomeController : Controller
         _fileManager = fileManager;
     }
 
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(string category)
     {
-        var posts = await _postService.GetAllPosts();
+        List<Post> posts;
+        if (String.IsNullOrEmpty(category))
+        {
+            posts = await _postService.GetAllPosts();
+        }
+        else
+        {
+            posts = await _postService.GetAllPosts(category);
+        }
         return View(posts);
     }
 

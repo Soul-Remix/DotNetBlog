@@ -3,7 +3,9 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>@ViewData["Title"] - DotNetBlog</title>
+    <meta name="description" content="@ViewBag.Description"/>
+    <meta name="keywords" content="@ViewBag.Keywords"/>
+    <title>@ViewBag.Title - DotNetBlog</title>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
 </head>
 <body>
@@ -11,6 +13,8 @@
     <nav class="navbar">
         <div>
             <a asp-controller="Home" asp-action="Index">Home</a>
+            <a asp-controller="Home" asp-action="Index" asp-route-category=".Net">.NET</a>
+            <a asp-controller="Home" asp-action="Index" asp-route-category="ML">ML</a>
             <a asp-controller="Panel" asp-action="Index">Admin Panel</a>
             @if (User.Identity.IsAuthenticated)
             {

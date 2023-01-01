@@ -24,6 +24,11 @@ public class PostService : IPostService
         return await _context.Posts.ToListAsync();
     }
 
+    public async Task<List<Post>> GetAllPosts(string category)
+    {
+        return await _context.Posts.Where(x => x.Category.ToLower().Equals(category.ToLower())).ToListAsync();
+    }
+
     public void AddPost(Post post)
     {
         _context.Posts.Add(post);
