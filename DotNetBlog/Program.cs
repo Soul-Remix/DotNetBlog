@@ -3,6 +3,8 @@ using DotNetBlog.Interfaces;
 using DotNetBlog.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using PhotoSauce.MagicScaler;
+using PhotoSauce.NativeCodecs.Libjpeg;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +28,8 @@ builder.Services.AddTransient<IPostService, PostService>();
 builder.Services.AddTransient<IFileManager, FileManager>();
 
 builder.Services.AddControllersWithViews();
+
+CodecManager.Configure(codecs => { codecs.UseLibjpeg(); });
 
 
 var app = builder.Build();

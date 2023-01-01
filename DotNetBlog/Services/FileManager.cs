@@ -1,4 +1,5 @@
 using DotNetBlog.Interfaces;
+using PhotoSauce.MagicScaler;
 
 namespace DotNetBlog.Services;
 
@@ -29,7 +30,7 @@ public class FileManager : IFileManager
 
         using (var fileStream = new FileStream(Path.Combine(savePath, fileName), FileMode.Create))
         {
-            await image.CopyToAsync(fileStream);
+            MagicImageProcessor.ProcessImage(image.OpenReadStream(), fileStream, _imageSettings);
         }
 
         return fileName;
@@ -46,4 +47,16 @@ public class FileManager : IFileManager
         File.Delete(file);
         return true;
     }
+
+    private ProcessImageSettings _imageSettings = new ProcessImageSettings()
+    {
+        Width = 1024,
+        Height = 1024,
+        ResizeMode = CropScaleMode.Crop,
+        EncoderOptions = new JpegEncoderOptions()
+        {
+            Quality = 100,
+            Subsample = ChromaSubsampleMode.Subsample420,
+        },
+    };
 }
