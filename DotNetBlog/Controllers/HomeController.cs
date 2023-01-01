@@ -27,6 +27,7 @@ public class HomeController : Controller
         {
             posts = await _postService.GetAllPosts(category);
         }
+
         return View(posts);
     }
 
@@ -37,6 +38,7 @@ public class HomeController : Controller
     }
 
     [HttpGet("/image/{image}")]
+    [ResponseCache(CacheProfileName = "Monthly")]
     public IActionResult Image(string image)
     {
         var mime = image.Substring(image.LastIndexOf(".", StringComparison.Ordinal) + 1);

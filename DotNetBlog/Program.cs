@@ -2,6 +2,7 @@ using DotNetBlog.Data;
 using DotNetBlog.Interfaces;
 using DotNetBlog.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PhotoSauce.MagicScaler;
 using PhotoSauce.NativeCodecs.Libjpeg;
@@ -27,7 +28,10 @@ builder.Services.ConfigureApplicationCookie(options => { options.LoginPath = "/A
 builder.Services.AddTransient<IPostService, PostService>();
 builder.Services.AddTransient<IFileManager, FileManager>();
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+{
+    options.CacheProfiles.Add("Monthly", new CacheProfile() { Duration = 60 * 60 * 24 * 7 * 4 });
+});
 
 CodecManager.Configure(codecs => { codecs.UseLibjpeg(); });
 
