@@ -16,7 +16,10 @@ public class PostService : IPostService
 
     public async Task<Post?> GetPost(int id)
     {
-        return await _context.Posts.Where(x => x.Id == id).FirstOrDefaultAsync();
+        return await _context.Posts.Where(x => x.Id == id)
+            .Include(x => x.Comments)
+            .ThenInclude(mc => mc.SubComments)
+            .FirstOrDefaultAsync();
     }
 
     public async Task<List<Post>> GetAllPosts()
@@ -48,6 +51,27 @@ public class PostService : IPostService
         }
 
         _context.Posts.Remove(post);
+    }
+
+    public void CreateComment(MainComment comment)
+    {
+        _context.MainComments.Add(comment);
+    }
+
+    public async Task UpdateComment(int id, string message)
+    {
+        var comment = await _context.MainComments.Where(x => x.Id == id).FirstOrDefaultAsync();
+
+        if (comment == null)
+        {
+            return;
+        }
+
+        _context.SubComments.Add(new SubComment()
+        {
+            MainCommentId = id,
+            Message = message
+        });
     }
 
     public async Task<bool> SaveChangesAsync()

@@ -3,6 +3,7 @@ using System;
 using DotNetBlog.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DotNetBlog.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230101143335_Comments")]
+    partial class Comments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.12");
@@ -30,12 +32,7 @@ namespace DotNetBlog.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("PostId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("PostId");
 
                     b.ToTable("MainComments");
                 });
@@ -293,13 +290,6 @@ namespace DotNetBlog.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("DotNetBlog.Models.MainComment", b =>
-                {
-                    b.HasOne("DotNetBlog.Models.Post", null)
-                        .WithMany("Comments")
-                        .HasForeignKey("PostId");
-                });
-
             modelBuilder.Entity("DotNetBlog.Models.SubComment", b =>
                 {
                     b.HasOne("DotNetBlog.Models.MainComment", null)
@@ -363,11 +353,6 @@ namespace DotNetBlog.Migrations
             modelBuilder.Entity("DotNetBlog.Models.MainComment", b =>
                 {
                     b.Navigation("SubComments");
-                });
-
-            modelBuilder.Entity("DotNetBlog.Models.Post", b =>
-                {
-                    b.Navigation("Comments");
                 });
 #pragma warning restore 612, 618
         }

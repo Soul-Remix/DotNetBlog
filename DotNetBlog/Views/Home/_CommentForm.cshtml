@@ -1,0 +1,8 @@
+@model CommentViewModel
+
+<form asp-controller="Home" asp-action="Comment" method="post">
+    <input type="hidden" asp-for="@Model.PostId"/>
+    <input type="hidden" asp-for="@Model.MainCommentId"/>
+    <input asp-for="@Model.Message"/>
+    <button type="submit">Comment</button>
+</form>

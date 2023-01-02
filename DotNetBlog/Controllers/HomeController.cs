@@ -1,7 +1,7 @@
-﻿using System.Diagnostics;
-using DotNetBlog.Interfaces;
+﻿using DotNetBlog.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using DotNetBlog.Models;
+using DotNetBlog.ViewModels;
 
 namespace DotNetBlog.Controllers;
 
@@ -45,9 +45,37 @@ public class HomeController : Controller
         return new FileStreamResult(_fileManager.ImageStream(image), $"Image/{mime}");
     }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
+    [HttpPost]
+    public async Task<IActionResult> Comment(CommentViewModel vm)
     {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        if (!ModelState.IsValid)
+        {
+            return await Post(vm.PostId);
+        }
+
+        if (vm.MainCommentId == 0)
+        {
+            var post = await _postService.GetPost(vm.PostId);
+            if (post == null)
+            {
+                return await Post(vm.PostId);
+            }
+
+            var mainComment = new MainComment()
+            {
+                Message = vm.Message,
+                PostId = vm.PostId
+            };
+            
+            _postService.CreateComment(mainComment);
+        }
+        else
+        {
+            await _postService.UpdateComment(vm.MainCommentId, vm.Message);
+        }
+
+        await _postService.SaveChangesAsync();
+
+        return RedirectToAction(nameof(Post), new { Id = vm.PostId });
     }
 }

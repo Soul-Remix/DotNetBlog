@@ -10,5 +10,7 @@ public class Post
     public string Category { get; set; }
     public string Tags { get; set; }
 
+    public IEnumerable<MainComment> Comments { get; set; }
+
     public DateTime CreatedAt { get; set; } = new DateTime();
 }
