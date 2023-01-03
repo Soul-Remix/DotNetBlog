@@ -47,7 +47,8 @@ public class PostService : IPostService
         {
             Posts = posts,
             PageNumber = pageNum,
-            HasNextPage = (pageNum + 1) * pageSize < count
+            HasNextPage = pageNum * pageSize < count,
+            Pages = (int)Math.Ceiling((double)count / pageSize)
         };
 
         return vm;
