@@ -16,19 +16,16 @@ public class HomeController : Controller
         _fileManager = fileManager;
     }
 
-    public async Task<IActionResult> Index(string category)
+    public async Task<IActionResult> Index(string category, int pageNum)
     {
-        List<Post> posts;
-        if (String.IsNullOrEmpty(category))
+        if (pageNum < 1)
         {
-            posts = await _postService.GetAllPosts();
-        }
-        else
-        {
-            posts = await _postService.GetAllPosts(category);
+            return RedirectToAction(nameof(Index), new { pageNum = 1, category });
         }
 
-        return View(posts);
+        var result = await _postService.GetAllPosts(pageNum, category);
+
+        return View(result);
     }
 
     public async Task<IActionResult> Post(int id)
@@ -66,7 +63,7 @@ public class HomeController : Controller
                 Message = vm.Message,
                 PostId = vm.PostId
             };
-            
+
             _postService.CreateComment(mainComment);
         }
         else

@@ -1,6 +1,7 @@
 using DotNetBlog.Data;
 using DotNetBlog.Interfaces;
 using DotNetBlog.Models;
+using DotNetBlog.ViewModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace DotNetBlog.Services;
@@ -24,12 +25,32 @@ public class PostService : IPostService
 
     public async Task<List<Post>> GetAllPosts()
     {
-        return await _context.Posts.ToListAsync();
+        return await _context.Posts.AsNoTracking().ToListAsync();
     }
 
-    public async Task<List<Post>> GetAllPosts(string category)
+    public async Task<PaginatedPostViewModel> GetAllPosts(int pageNum, string category)
     {
-        return await _context.Posts.Where(x => x.Category.ToLower().Equals(category.ToLower())).ToListAsync();
+        int pageSize = 5;
+        var query = _context.Posts.AsNoTracking();
+
+        if (!String.IsNullOrEmpty(category))
+        {
+            query = query.Where(x => x.Category.ToLower().Equals(category.ToLower()));
+        }
+
+        var count = await query.CountAsync();
+        var posts = await query.Skip(pageSize * (pageNum - 1))
+            .Take(pageSize)
+            .ToListAsync();
+
+        var vm = new PaginatedPostViewModel()
+        {
+            Posts = posts,
+            PageNumber = pageNum,
+            HasNextPage = (pageNum + 1) * pageSize < count
+        };
+
+        return vm;
     }
 
     public void AddPost(Post post)
