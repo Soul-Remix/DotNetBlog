@@ -19,15 +19,55 @@
             <p class="card-title">@post.Title</p>
         </a>
     }
+    @{
+        List<int> pages = new List<int>();
+        int midPoint = Model.PageNumber;
+        if (midPoint < 3)
+        {
+            midPoint = 3;
+        }
+        if (midPoint > Model.Pages - 2)
+        {
+            midPoint = Model.Pages - 2;
+        }
+        for (int i = midPoint - 1; i <= midPoint + 1; i++)
+        {
+            pages.Add(i);
+        }
+        if (pages[0] != 1)
+        {
+            pages.Insert(0, 1);
+            if (pages[1] - pages[0] > 1)
+            {
+                pages.Insert(1, -1);
+            }
+        }
+        if (pages[^1] != Model.Pages)
+        {
+            pages.Add(Model.Pages);
+            if (pages[^1] - pages[^2] > 1)
+            {
+                pages.Insert(pages.Count - 1, -1);
+            }
+        }
+    }
+
     <div class="pages">
         @if (Model.PageNumber > 1)
         {
             <a asp-controller="Home" asp-action="Index" asp-route-pageNum="@(Model.PageNumber - 1)">&lt</a>
         }
-        @for (int i = 1; i <= Model.Pages; i++)
+        @foreach (int i in pages)
         {
-            string activeClass = Model.PageNumber == i ? "active" : "";
-            <a class="@activeClass" asp-controller="Home" asp-action="Index" asp-route-pageNum="@i">@i</a>
+            if (i == -1)
+            {
+                <span>...</span>
+            }
+            else
+            {
+                string activeClass = Model.PageNumber == i ? "active" : "";
+                <a class="@activeClass" asp-controller="Home" asp-action="Index" asp-route-pageNum="@i">@i</a>
+            }
         }
         @if (Model.HasNextPage)
         {

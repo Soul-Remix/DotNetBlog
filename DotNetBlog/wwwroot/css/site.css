@@ -127,7 +127,7 @@ nav a:hover {
 }
 
 .pages a {
-    padding: 1rem;
+    padding: 0.5rem 0.75rem;
     background-color: #aaa;
     color: white;
     border: 1px solid #eee;
@@ -141,4 +141,8 @@ nav a:hover {
 
 .pages a:hover {
     background-color: #999;
+}
+
+.pages .three-dot{
+    font-size: 1.5rem;
 }
