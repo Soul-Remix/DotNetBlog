@@ -21,33 +21,43 @@
     }
     @{
         List<int> pages = new List<int>();
-        int midPoint = Model.PageNumber;
-        if (midPoint < 3)
+        if (Model.Pages < 5)
         {
-            midPoint = 3;
-        }
-        if (midPoint > Model.Pages - 2)
-        {
-            midPoint = Model.Pages - 2;
-        }
-        for (int i = midPoint - 1; i <= midPoint + 1; i++)
-        {
-            pages.Add(i);
-        }
-        if (pages[0] != 1)
-        {
-            pages.Insert(0, 1);
-            if (pages[1] - pages[0] > 1)
+            for (int i = 1; i <= Model.Pages; i++)
             {
-                pages.Insert(1, -1);
+                pages.Add(i);
             }
         }
-        if (pages[^1] != Model.Pages)
+        else
         {
-            pages.Add(Model.Pages);
-            if (pages[^1] - pages[^2] > 1)
+            int midPoint = Model.PageNumber;
+            if (midPoint < 3)
             {
-                pages.Insert(pages.Count - 1, -1);
+                midPoint = 3;
+            }
+            if (midPoint > Model.Pages - 2)
+            {
+                midPoint = Model.Pages - 2;
+            }
+            for (int i = midPoint - 1; i <= midPoint + 1; i++)
+            {
+                pages.Add(i);
+            }
+            if (pages[0] != 1)
+            {
+                pages.Insert(0, 1);
+                if (pages[1] - pages[0] > 1)
+                {
+                    pages.Insert(1, -1);
+                }
+            }
+            if (pages[^1] != Model.Pages)
+            {
+                pages.Add(Model.Pages);
+                if (pages[^1] - pages[^2] > 1)
+                {
+                    pages.Insert(pages.Count - 1, -1);
+                }
             }
         }
     }
