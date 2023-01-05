@@ -15,9 +15,12 @@
             <a asp-controller="Home" asp-action="Index">Home</a>
             <a asp-controller="Home" asp-action="Index" asp-route-category=".Net">.NET</a>
             <a asp-controller="Home" asp-action="Index" asp-route-category="ML">ML</a>
-            <a asp-controller="Panel" asp-action="Index">Admin Panel</a>
             @if (User.Identity.IsAuthenticated)
             {
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-controller="Panel" asp-action="Index">Admin Panel</a>
+                }
                 <a asp-controller="Auth" asp-action="LogOut">LogOut</a>
             }
             else

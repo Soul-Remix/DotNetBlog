@@ -4,7 +4,7 @@
     ViewBag.Title = "Log In";
 }
 
-<form asp-controller="Auth" asp-action="LogIn" method="post">
+<form class="sign-in-form" asp-controller="Auth" asp-action="LogIn" method="post">
     <div>
         <label>User Name:</label>
         <input asp-for="UserName"/>
@@ -13,5 +13,9 @@
         <label>Password:</label>
         <input asp-for="Password"/>
     </div>
-    <button type="submit">Log In</button>
+    <div>
+        <button type="submit">Log In</button>
+        <a asp-controller="Auth" asp-action="Register">Register</a>
+    </div>
+
 </form>

@@ -143,6 +143,25 @@ nav a:hover {
     background-color: #999;
 }
 
-.pages .three-dot{
+.pages .three-dot {
     font-size: 1.5rem;
+}
+
+.sign-in-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.sign-in-form div {
+    max-width: 300px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.error {
+    color: red;
 }
