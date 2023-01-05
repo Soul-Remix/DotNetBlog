@@ -47,6 +47,18 @@ nav a:hover {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.search {
+    outline: none;
+    border: none;
+    border-bottom: 2px solid pink;
+    background-color: transparent;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    color: white;
 }
 
 .title {

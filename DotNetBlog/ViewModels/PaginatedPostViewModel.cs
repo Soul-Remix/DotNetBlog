@@ -8,4 +8,6 @@ public class PaginatedPostViewModel
     public int PageNumber { get; set; }
     public int Pages { get; set; }
     public bool HasNextPage { get; set; }
+    public string Category { get; set; }
+    public string Search { get; set; }
 }

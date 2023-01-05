@@ -7,7 +7,7 @@ public interface IPostService
 {
     Task<Post?> GetPost(int id);
     Task<List<Post>> GetAllPosts();
-    Task<PaginatedPostViewModel> GetAllPosts(int pageNum,string category);
+    Task<PaginatedPostViewModel> GetAllPosts(int pageNum,string category,string search);
     void AddPost(Post post);
     void UpdatePost(Post post);
     Task RemovePost(int id);

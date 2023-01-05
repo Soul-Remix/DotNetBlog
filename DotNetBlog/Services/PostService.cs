@@ -28,14 +28,26 @@ public class PostService : IPostService
         return await _context.Posts.AsNoTracking().ToListAsync();
     }
 
-    public async Task<PaginatedPostViewModel> GetAllPosts(int pageNum, string category)
+    public async Task<PaginatedPostViewModel> GetAllPosts(int pageNum, string category, string search)
     {
+        if (pageNum < 1)
+        {
+            pageNum = 1;
+        }
+
         int pageSize = 5;
         var query = _context.Posts.AsNoTracking();
 
         if (!String.IsNullOrEmpty(category))
         {
             query = query.Where(x => x.Category.ToLower().Equals(category.ToLower()));
+        }
+
+        if (!String.IsNullOrEmpty(search))
+        {
+            query = query.Where(x =>
+                x.Title.ToLower().Equals(search.ToLower()) ||
+                x.Body.ToLower().Equals(search.ToLower()));
         }
 
         var count = await query.CountAsync();
@@ -48,7 +60,9 @@ public class PostService : IPostService
             Posts = posts,
             PageNumber = pageNum,
             HasNextPage = pageNum * pageSize < count,
-            Pages = (int)Math.Ceiling((double)count / pageSize)
+            Pages = (int)Math.Ceiling((double)count / pageSize),
+            Category = category,
+            Search = search
         };
 
         return vm;

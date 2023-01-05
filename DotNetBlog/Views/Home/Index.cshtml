@@ -8,6 +8,11 @@
 
 <div class="main-img">
     <span class="title">Amazing Blog Site</span>
+    <form asp-controller="Home" asp-action="Index">
+        <input type="hidden" name="pageNum" value="0"/>
+        <input type="hidden" name="category" value=""/>
+        <input class="search" placeholder="Search here..." name="search" value="@Model.Search"/>
+    </form>
 </div>
 
 <div class="container">
@@ -65,7 +70,7 @@
     <div class="pages">
         @if (Model.PageNumber > 1)
         {
-            <a asp-controller="Home" asp-action="Index" asp-route-pageNum="@(Model.PageNumber - 1)">&lt</a>
+            <a asp-controller="Home" asp-action="Index" asp-route-category="@Model.Category" asp-route-search="@Model.Search" asp-route-pageNum="@(Model.PageNumber - 1)">&lt</a>
         }
         @foreach (int i in pages)
         {
@@ -76,12 +81,12 @@
             else
             {
                 string activeClass = Model.PageNumber == i ? "active" : "";
-                <a class="@activeClass" asp-controller="Home" asp-action="Index" asp-route-pageNum="@i">@i</a>
+                <a class="@activeClass" asp-controller="Home" asp-action="Index" asp-route-category="@Model.Category" asp-route-search="@Model.Search" asp-route-pageNum="@i">@i</a>
             }
         }
         @if (Model.HasNextPage)
         {
-            <a asp-controller="Home" asp-action="Index" asp-route-pageNum="@(Model.PageNumber + 1)">&gt</a>
+            <a asp-controller="Home" asp-action="Index" asp-route-category="@Model.Category" asp-route-search="@Model.Search" asp-route-pageNum="@(Model.PageNumber + 1)">&gt</a>
         }
     </div>
 </div>

@@ -16,14 +16,9 @@ public class HomeController : Controller
         _fileManager = fileManager;
     }
 
-    public async Task<IActionResult> Index(string category, int pageNum)
+    public async Task<IActionResult> Index(string category, int pageNum, string search)
     {
-        if (pageNum < 1)
-        {
-            return RedirectToAction(nameof(Index), new { pageNum = 1, category });
-        }
-
-        var result = await _postService.GetAllPosts(pageNum, category);
+        var result = await _postService.GetAllPosts(pageNum, category, search);
 
         return View(result);
     }
